@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Starblood Ascension Codex -- Attrubutes</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #mindmap-container {
+            width: 100vw;
+            height: 100vh;
+            cursor: grab;
+        }
+
+        #mindmap-container.dragging {
+            cursor: grabbing;
+        }
+
+        .node circle {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        circle {
+            cursor: default;
+        }
+
+        .link {
+            fill: none;
+            stroke: #999;
+            stroke-width: 1.5px;
+        }
+
+        .arrow {
+            stroke: #999;
+            fill: #999;
+            stroke-width: 1.5px;
+        }
+
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 80%;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            /*cursor: pointer;*/
+            font-size: 20px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .popup-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .popup-description {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .node-label {
+            font-size: 12px;
+            fill: #333;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+    </style>
+    <script>
+        // Конфигурация
+        const config = {
+            useArrows: true,
+            showLabels: true,
+            nodeRadius: 16
+        };
+
+        /**
+         * первые атрибуты - зеленый, синий и золотистый - тело, разум, дух
+         *
+         * @type {{css: string, children: [{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string, style: {fill: string, stroke: string}},{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string},{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string}], name: string, description: string}}
+         */
+        const mindmapData = {
+            "name": "Я",
+            "description": "Азур-источник восходящего",
+            "css": "fill: #ff7f0e; stroke: #cc6600;",
+            "children": [
+                {
+                    "name": "Тело",
+                    "description": "Показатель развития физических характеристик относительно первого предела Восхождения.",
+                    "css": "fill: lightgreen;",
+                    "style": {
+                        "fill": "#00ff00",
+                        "stroke": "#cc6666",
+                    },
+                    "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
+                    "children": [
+                        {
+                            "name": "Подветвь 1.1",
+                            "description": "Описание подветви 1.1",
+                            "children": [
+                                {"name": "Лист 1.1.1", "description": "Описание листа 1.1.1"},
+                                {"name": "Лист 1.1.2", "description": "Описание листа 1.1.2"},
+                                {"name": "Лист 1.1.3", "description": "Описание листа 1.1.3"}
+                            ]
+                        },
+                        {
+                            "name": "Подветвь 1.2",
+                            "description": "Описание подветви 1.2",
+                            "children": [
+                                {"name": "Лист 1.2.1", "description": "Описание листа 1.2.1"},
+                                {"name": "Лист 1.2.2", "description": "Описание листа 1.2.2"},
+                                {"name": "Лист 1.2.3", "description": "Описание листа 1.2.3"}
+                            ]
+                        },
+                        {
+                            "name": "Подветвь 1.3",
+                            "description": "Описание подветви 1.3",
+                            "children": [
+                                {"name": "Лист 1.3.1", "description": "Описание листа 1.3.1"},
+                                {"name": "Лист 1.3.2", "description": "Описание листа 1.3.2"},
+                                {"name": "Лист 1.3.3", "description": "Описание листа 1.3.3"}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Разум",
+                    "description": "Показатель интеллектуального, мыслительного и психоэмоционального развития относительно первого предела Восхождения.",
+                    "css": "fill: #9999ff; stroke: #66cc66;",
+                    "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
+                    "children": [
+                        {
+                            "name": "Подветвь 2.1",
+                            "description": "Описание подветви 2.1",
+                            "children": [
+                                {"name": "Лист 2.1.1", "description": "Описание листа 2.1.1"},
+                                {"name": "Лист 2.1.2", "description": "Описание листа 2.1.2"},
+                                {"name": "Лист 2.1.3", "description": "Описание листа 2.1.3"}
+                            ]
+                        },
+                        {
+                            "name": "Подветвь 2.2",
+                            "description": "Описание подветви 2.2",
+                            "children": [
+                                {"name": "Лист 2.2.1", "description": "Описание листа 2.2.1"},
+                                {"name": "Лист 2.2.2", "description": "Описание листа 2.2.2"},
+                                {"name": "Лист 2.2.3", "description": "Описание листа 2.2.3"}
+                            ]
+                        },
+                        {
+                            "name": "Подветвь 2.3",
+                            "description": "Описание подветви 2.3",
+                            "children": [
+                                {"name": "Лист 2.3.1", "description": "Описание листа 2.3.1"},
+                                {"name": "Лист 2.3.2", "description": "Описание листа 2.3.2"},
+                                {"name": "Лист 2.3.3", "description": "Описание листа 2.3.3"}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Дух",
+                    "description": "Показатель духовного и ментального развития относительно первого предела Восхождения.",
+                    "css": "fill: gold; stroke: #6666cc;",
+                    "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
+                    "children": [
+                        {
+                            "name": "Подветвь 3.1",
+                            "description": "Описание подветви 3.1",
+                            "children": [
+                                {
+                                    "name": "Лист 3.1.1",
+                                    "description": "Описание листа 3.1.1"
+                                },
+                                {
+                                    "name": "Лист 3.1.2",
+                                    "description": "Описание листа 3.1.2"
+                                },
+                                {
+                                    "name": "Лист 3.1.3",
+                                    "description": "Описание листа 3.1.3"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Подветвь 3.2",
+                            "description": "Описание подветви 3.2",
+                            "children": [
+                                {"name": "Лист 3.2.1", "description": "Описание листа 3.2.1"},
+                                {"name": "Лист 3.2.2", "description": "Описание листа 3.2.2"},
+                                {"name": "Лист 3.2.3", "description": "Описание листа 3.2.3"}
+                            ]
+                        },
+                        {
+                            "name": "Подветвь 3.3",
+                            "description": "Описание подветви 3.3",
+                            "children": [
+                                {"name": "Лист 3.3.1", "description": "Описание листа 3.3.1"},
+                                {"name": "Лист 3.3.2", "description": "Описание листа 3.3.2"},
+                                {"name": "Лист 3.3.3", "description": "Описание листа 3.3.3"}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+    </script>
+</head>
+<body>
+<div id="mindmap-container">
+    <svg id="mindmap"></svg>
+</div>
+
+<!-- Popup overlay -->
+<div id="popup-overlay" class="popup-overlay">
+    <div class="popup-content">
+        <span class="popup-close">&times;</span>
+        <div class="popup-title" id="popup-title"></div>
+        <div class="popup-description" id="popup-description"></div>
+    </div>
+</div>
+
+<script>
+    // Настройки визуализации
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const center = {
+        x: width / 2,
+        y: height / 2
+    };
+    const nodeRadius = config.nodeRadius;
+
+    // Создаем SVG контейнер
+    const svg = d3.select("#mindmap")
+        .attr("width", width)
+        .attr("height", height);
+
+    // Создаем группу для содержимого с трансформацией
+    const g = svg.append("g");
+
+    // Иерархическая структура данных
+    const root = d3.hierarchy(mindmapData);
+
+    // Радиальная диаграмма
+    const treeLayout = d3.tree()
+        .size([2 * Math.PI, Math.min(width, height) / 2 - 50])
+        .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+
+    // Применяем layout к данным
+    treeLayout(root);
+
+    // Функция для рисования линии между узлами (с учетом стрелок)
+    function drawLink(d) {
+        const startAngle = d.source.x;
+        const startRadius = d.source.y;
+        const endAngle = d.target.x;
+        const endRadius = d.target.y;
+
+        const x1 = Math.cos(startAngle) * startRadius;
+        const y1 = Math.sin(startAngle) * startRadius;
+        const x2 = Math.cos(endAngle) * endRadius;
+        const y2 = Math.sin(endAngle) * endRadius;
+
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const ratio = (len - nodeRadius) / len;
+        const adjustedX2 = x1 + dx * ratio;
+        const adjustedY2 = y1 + dy * ratio;
+
+        if (config.useArrows) {
+            const line = `M${x1},${y1}L${adjustedX2},${adjustedY2}`;
+            const angle = Math.atan2(adjustedY2 - y1, adjustedX2 - x1);
+
+            return {
+                line: line,
+                angle: angle,
+                x: adjustedX2,
+                y: adjustedY2
+            };
+        } else {
+            return {
+                line: `M${x1},${y1}L${x2},${y2}`
+            };
+        }
+    }
+
+    // Рисуем связи
+    const linksGroup = g.append("g")
+        .attr("fill", "none")
+        .attr("stroke", "#555")
+        .attr("stroke-opacity", 0.4)
+        .attr("stroke-width", 1.5);
+
+    const links = linksGroup.selectAll("path")
+        .data(root.links())
+        .join("path")
+        .attr("class", "link")
+        .attr("d", d => drawLink(d).line);
+
+    // Если нужно, добавляем стрелки
+    if (config.useArrows) {
+        linksGroup.selectAll(".arrow-marker")
+            .data(root.links())
+            .join("path")
+            .attr("class", "arrow")
+            .attr("d", d => {
+                const linkData = drawLink(d);
+                const arrowSize = 6;
+                const angle = linkData.angle;
+
+                return `
+                        M${linkData.x},${linkData.y}
+                        L${linkData.x - arrowSize * Math.cos(angle - Math.PI / 6)},${linkData.y - arrowSize * Math.sin(angle - Math.PI / 6)}
+                        L${linkData.x - arrowSize * Math.cos(angle + Math.PI / 6)},${linkData.y - arrowSize * Math.sin(angle + Math.PI / 6)}
+                        Z
+                    `;
+            });
+    }
+
+    // Рисуем узлы
+    const node = g.append("g")
+        .selectAll("g")
+        .data(root.descendants())
+        .join("g")
+        .attr("transform", d => `translate(${Math.cos(d.x) * d.y}, ${Math.sin(d.x) * d.y})`);
+
+    // Добавляем кружки для узлов
+    const circles = node.append("circle")
+        .attr("r", nodeRadius)
+        .attr("style", d => d.data.css || "fill: #ccc; stroke: #999;")
+        .attr("fill", d => d.data.style?.fill || "#ccc")
+        .attr("stroke", d => d.data.style?.stroke || "#999")
+        .on("click", (event, d) => {
+            event.stopPropagation();
+            showPopup(d.data.name, d.data.description);
+        });
+
+    // Добавляем иконки в узлы
+    node.each(function (d) {
+        if (d.data.style?.icon) {
+            d3.select(this)
+                .append("g")
+                .attr("transform", `translate(-${nodeRadius}, -${nodeRadius})`)
+                .html(d.data.style.icon);
+        }
+    });
+
+    if (config.showLabels) {
+        node.append("text")
+            .attr("class", "node-label")
+            .attr("dy", nodeRadius + 15)  // Отступ от кружка
+            .attr("text-anchor", "middle")
+            .text(d => d.data.name);
+    }
+
+    // Zoom и перетаскивание
+    const zoom = d3.zoom()
+        .scaleExtent([0.1, 5])
+        .on("zoom", (event) => {
+            g.attr("transform", event.transform);
+        });
+
+    // Центрируем по центральному узлу при загрузке
+    const initialScale = 1;
+    const initialX = center.x - Math.cos(root.x) * root.y * initialScale;
+    const initialY = center.y - Math.sin(root.x) * root.y * initialScale;
+
+    svg.call(zoom)
+        .call(zoom.transform, d3.zoomIdentity
+            .translate(initialX, initialY)
+            .scale(initialScale)
+        );
+
+    // Обработчики для изменения курсора при перетаскивании
+    const container = d3.select("#mindmap-container");
+
+    svg.on("mousedown", () => {
+        container.classed("dragging", true);
+    });
+
+    svg.on("mouseup", () => {
+        container.classed("dragging", false);
+    });
+
+    // Popup functions
+    function showPopup(title, description) {
+        d3.select("#popup-title").text(title);
+        d3.select("#popup-description").text(description);
+        d3.select("#popup-overlay").classed("active", true);
+    }
+
+    function hidePopup() {
+        d3.select("#popup-overlay").classed("active", false);
+    }
+
+    // Close popup handlers
+    d3.select(".popup-close").on("click", hidePopup);
+    d3.select("#popup-overlay").on("click", function (event) {
+        if (event.target === this) {
+            hidePopup();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            hidePopup();
+        }
+    });
+
+    // Обработчик изменения размера окна
+    window.addEventListener("resize", () => {
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+
+        svg.attr("width", newWidth)
+            .attr("height", newHeight);
+    });
+</script>
+</body>
+</html>
