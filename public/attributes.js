@@ -1,10 +1,19 @@
 /**
  * первые атрибуты - зеленый, синий и золотистый - тело, разум, дух
  *
- * @type {{css: string, children: [{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string, style: {fill: string, stroke: string}},{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string},{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string}], name: string, description: string}}
+ * Дух => Стихийность, Ментальность,
+ * Тело => Физионика, Моторика, Телесность
+ * Разум => Интеллект
+ *
+ * Бронзовые Атрибуты Разума назывались так:
+ * Мышление (бронза) 1/10
+ * Восприятие (бронза) 0/10
+ * Воля (бронза) 0/10
+ * ---
+ * золотые: воображение, искусность
  */
 const mindmapData = {
-    "name": "Я",
+    "name": "Исток",
     "description": "Азур-источник восходящего",
     "style": {
         "fill": "white",
@@ -14,7 +23,7 @@ const mindmapData = {
     "children": [
         {
             "name": "Тело",
-            "description": "Показатель развития физических характеристик относительно первого предела Восхождения.",
+            "description": "Показатель развития физических характеристик. Влияет на телосложение. Каждая звезда, вложенная в этот атрибут, ощущется как значительная прибавка сил. Является ведущим атрибутом для любых навыков, связанных с физической активностью (например \"Рукопашный бой\", \"Плавание\" и т.п.)",
             "css": "fill: lightgreen;",
             "style": {
                 "fill": "#00ff00",
@@ -24,42 +33,70 @@ const mindmapData = {
             "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
             "children": [
                 {
-                    "name": "Подветвь 1.1",
-                    "description": "Описание подветви 1.1",
+                    "name": "Физионика",
+                    "description": "Атрибут тела. Отвечает за физические кондиции организма (сила, выносливость). Влияет на вид Восходящего, делая его более \"мускулистым\".",
+                    "skills": "Ускоренной Циркуляции ЗК",
                     "style": {
-                        "fill": "#ffcc99",
+                        "fill": "",
                         "stroke": "#cc9966",
                         "icon": "triangle"
                     },
                     "children": [
-                        {"name": "Лист 1.1.1", "description": "Описание листа 1.1.1"},
-                        {"name": "Лист 1.1.2", "description": "Описание листа 1.1.2"},
-                        {"name": "Лист 1.1.3", "description": "Описание листа 1.1.3"}
+                        {
+                            "name": "Мощь",
+                            "description": ""
+                        },
+                        {
+                            "name": "Выносливость",
+                            "description": ""
+                        },
+                        {
+                            "name": "Размерность",
+                            "description": ""
+                        }
                     ]
                 },
                 {
-                    "name": "Подветвь 1.2",
-                    "description": "Описание подветви 1.2",
+                    "name": "Моторика",
+                    "description": "Отвечает за скорость реакции, рефлексы и координацию движений. Практически не влияет на внешность.",
                     "children": [
-                        {"name": "Лист 1.2.1", "description": "Описание листа 1.2.1"},
-                        {"name": "Лист 1.2.2", "description": "Описание листа 1.2.2"},
-                        {"name": "Лист 1.2.3", "description": "Описание листа 1.2.3"}
+                        {
+                            "name": "Ловкость",
+                            "description": ""
+                        },
+                        {
+                            "name": "Движение",
+                            "description": ""
+                        },
+                        {
+                            "name": "Координация",
+                            "description": ""
+                        }
                     ]
                 },
                 {
-                    "name": "Подветвь 1.3",
-                    "description": "Описание подветви 1.3",
+                    "name": "Телесность",
+                    "description": "Атрибут тела. Отвечает за скелетный каркас, обмен веществ, общую живучесть и естественную регенерацию организма. Сопротивляемость различным недугам, правильные пропорции тканей, выносливость. Мало влияет на природные антропометрические показатели, но является основой для любых других улучшений тела.",
                     "children": [
-                        {"name": "Лист 1.3.1", "description": "Описание листа 1.3.1"},
-                        {"name": "Лист 1.3.2", "description": "Описание листа 1.3.2"},
-                        {"name": "Лист 1.3.3", "description": "Описание листа 1.3.3"}
+                        {
+                            "name": "Совершенность",
+                            "description": ""
+                        },
+                        {
+                            "name": "Изменяемость",
+                            "description": ""
+                        },
+                        {
+                            "name": "Адаптивность",
+                            "description": ""
+                        }
                     ]
                 }
             ]
         },
         {
             "name": "Разум",
-            "description": "Показатель интеллектуального, мыслительного и психоэмоционального развития относительно первого предела Восхождения.",
+            "description": "Показатель мыслительного и психоэмоционального развития. Отвечает за скорость обучения, память и контроль эмоций. Является ведущим атрибутом для любых когнитивных навыков (например, изучение языков, управление техникой и т.д.).",
             "style": {
                 "fill": "#9999ff",
                 "stroke": "#66cc66",
@@ -67,37 +104,75 @@ const mindmapData = {
             },
             "children": [
                 {
-                    "name": "Подветвь 2.1",
-                    "description": "Описание подветви 2.1",
+                    "name": "Мышление",
+                    "description": "Отвечает за логику, интеллект, память и способность к познанию и обучению.",
                     "children": [
-                        {"name": "Лист 2.1.1", "description": "Описание листа 2.1.1"},
-                        {"name": "Лист 2.1.2", "description": "Описание листа 2.1.2"},
-                        {"name": "Лист 2.1.3", "description": "Описание листа 2.1.3"}
+                        {
+                            "name": "Интеллект",
+                            "description": "Определяет способность разума усваивать, обрабатывать и использовать информацию. Т.е. быстрее думать и принимать верные решения.",
+                            "children": [
+                                { "name": "Воображение", "description": "" },
+                                { "name": "Искусность", "description": "" },
+                                { "name": "?", "description": "" }
+                            ]
+                        },
+                        {
+                            "name": "Мнемоника",
+                            "description": "",
+                            "children": [
+                                { "name": "Память Прошлого", "description": "" },
+                                { "name": "", "description": "" },
+                                { "name": "", "description": "" }
+                            ]
+                        },
+                        {
+                            "name": "Интуиция",
+                            "description": "Описание листа 2.2.3"
+                        }
                     ]
                 },
                 {
-                    "name": "Подветвь 2.2",
-                    "description": "Описание подветви 2.2",
+                    "name": "Восприятие",
+                    "description": "Атрибут Разума. Определяет способность разума получать (извлекать) полезную информацию из той, что поступила по имеющимся органам чувств.",
                     "children": [
-                        {"name": "Лист 2.2.1", "description": "Описание листа 2.2.1"},
-                        {"name": "Лист 2.2.2", "description": "Описание листа 2.2.2"},
-                        {"name": "Лист 2.2.3", "description": "Описание листа 2.2.3"}
+                        {
+                            "name": "Познание",
+                            "description": "Отвечет за изучение окружающего мира, его глубокое познание и способность распознавать мельчайшие детали."
+                        },
+                        {
+                            "name": "Острота",
+                            "description": "Развивает все органы чувств выше человеческих возможностей."
+                        },
+                        {
+                            "name": "Чувственность",
+                            "description": "Развивает эмоциональную и психологическую чувствительность, позволяя читать других людей и ощущать перемены в их энергетических потоках."
+                        }
                     ]
                 },
                 {
-                    "name": "Подветвь 2.3",
-                    "description": "Описание подветви 2.3",
+                    "name": "Воля",
+                    "description": "",
+                    "skills": " Стойкость, Самоконтроль и Резильентность",
                     "children": [
-                        {"name": "Лист 2.3.1", "description": "Описание листа 2.3.1"},
-                        {"name": "Лист 2.3.2", "description": "Описание листа 2.3.2"},
-                        {"name": "Лист 2.3.3", "description": "Описание листа 2.3.3"}
+                        {
+                            "name": "Контроль",
+                            "description": ""
+                        },
+                        {
+                            "name": "Подчинение",
+                            "description": ""
+                        },
+                        {
+                            "name": "Устойчивость",
+                            "description": ""
+                        }
                     ]
                 }
             ]
         },
         {
             "name": "Дух",
-            "description": "Показатель духовного и ментального развития относительно первого предела Восхождения.",
+            "description": "Показатель духовного и ментального развития. Отвечает за скорость регенерации Звездной Крови. Является ведущим атрибутом для навыков, связанных со Звездной Кровью, интуицией, и рядом других \"трансцендентных\" направлений.",
             "style": {
                 "fill": "gold",
                 "stroke": "#6666cc",
@@ -105,39 +180,63 @@ const mindmapData = {
             },
             "children": [
                 {
-                    "name": "Подветвь 3.1",
-                    "description": "Описание подветви 3.1",
+                    "name": "Стихийность",
+                    "description": "Отвечает за сродство со всеми Стихиями, способность ощущать их, а так же сопротивление стихийному урону.",
                     "children": [
                         {
-                            "name": "Лист 3.1.1",
-                            "description": "Описание листа 3.1.1"
+                            "name": "Элементность",
+                            "description": "Отвечает за управление стихийными силами."
                         },
                         {
-                            "name": "Лист 3.1.2",
-                            "description": "Описание листа 3.1.2"
+                            "name": "Витамантия",
+                            "description": "Отвечает за управление жизненными силами, исцелением, а так же всем, что двигается или растет."
                         },
                         {
-                            "name": "Лист 3.1.3",
-                            "description": "Описание листа 3.1.3"
+                            "name": "Некротика",
+                            "description": "Отвечает за управление стихией Смерти"
                         }
                     ]
                 },
                 {
-                    "name": "Подветвь 3.2",
-                    "description": "Описание подветви 3.2",
+                    "name": "Ментальность",
+                    "description": "Дальнейшее развитие бестелесного начала Восходящего ускоряет восполнение Звездной Крови. Открывает ментальные Навыки, необходимые для защиты разума от ментальных воздействий, телепатического общения и многого другого.",
                     "children": [
-                        {"name": "Лист 3.2.1", "description": "Описание листа 3.2.1"},
-                        {"name": "Лист 3.2.2", "description": "Описание листа 3.2.2"},
-                        {"name": "Лист 3.2.3", "description": "Описание листа 3.2.3"}
+                        {
+                            "name": "Мистика",
+                            "description": ""
+                        },
+                        {
+                            "name": "Псионика",
+                            "description": "",
+                            "children": [
+                                {
+                                    "name": "Психоманипуляция", "description": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Энергия",
+                            "description": "Дальнейшее ускорение восполнения Звездной Крови. Манипуляции с энергией."
+                        }
                     ]
                 },
                 {
-                    "name": "Подветвь 3.3",
-                    "description": "Описание подветви 3.3",
+                    "name": "Предвидение",
+                    "description": "???",
+                    "skills": "Контроль ЗК (руной) и Концентрация",
                     "children": [
-                        {"name": "Лист 3.3.1", "description": "Описание листа 3.3.1"},
-                        {"name": "Лист 3.3.2", "description": "Описание листа 3.3.2"},
-                        {"name": "Лист 3.3.3", "description": "Описание листа 3.3.3"}
+                        {
+                            "name": "Ритуальность",
+                            "description": ""
+                        },
+                        {
+                            "name": "Теургия",
+                            "description": ""
+                        },
+                        {
+                            "name": "Прозрение",
+                            "description": ""
+                        }
                     ]
                 }
             ]
