@@ -103,145 +103,19 @@
         }
     </style>
     <script>
-        // Конфигурация
         const config = {
             useArrows: true,
             showLabels: true,
             nodeRadius: 16
         };
-
-        /**
-         * первые атрибуты - зеленый, синий и золотистый - тело, разум, дух
-         *
-         * @type {{css: string, children: [{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string, style: {fill: string, stroke: string}},{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string},{css: string, children: [{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string},{children: [{name: string, description: string},{name: string, description: string},{name: string, description: string}], name: string, description: string}], name: string, icon: string, description: string}], name: string, description: string}}
-         */
-        const mindmapData = {
-            "name": "Я",
-            "description": "Азур-источник восходящего",
-            "css": "fill: #ff7f0e; stroke: #cc6600;",
-            "children": [
-                {
-                    "name": "Тело",
-                    "description": "Показатель развития физических характеристик относительно первого предела Восхождения.",
-                    "css": "fill: lightgreen;",
-                    "style": {
-                        "fill": "#00ff00",
-                        "stroke": "#cc6666",
-                    },
-                    "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
-                    "children": [
-                        {
-                            "name": "Подветвь 1.1",
-                            "description": "Описание подветви 1.1",
-                            "children": [
-                                {"name": "Лист 1.1.1", "description": "Описание листа 1.1.1"},
-                                {"name": "Лист 1.1.2", "description": "Описание листа 1.1.2"},
-                                {"name": "Лист 1.1.3", "description": "Описание листа 1.1.3"}
-                            ]
-                        },
-                        {
-                            "name": "Подветвь 1.2",
-                            "description": "Описание подветви 1.2",
-                            "children": [
-                                {"name": "Лист 1.2.1", "description": "Описание листа 1.2.1"},
-                                {"name": "Лист 1.2.2", "description": "Описание листа 1.2.2"},
-                                {"name": "Лист 1.2.3", "description": "Описание листа 1.2.3"}
-                            ]
-                        },
-                        {
-                            "name": "Подветвь 1.3",
-                            "description": "Описание подветви 1.3",
-                            "children": [
-                                {"name": "Лист 1.3.1", "description": "Описание листа 1.3.1"},
-                                {"name": "Лист 1.3.2", "description": "Описание листа 1.3.2"},
-                                {"name": "Лист 1.3.3", "description": "Описание листа 1.3.3"}
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "Разум",
-                    "description": "Показатель интеллектуального, мыслительного и психоэмоционального развития относительно первого предела Восхождения.",
-                    "css": "fill: #9999ff; stroke: #66cc66;",
-                    "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
-                    "children": [
-                        {
-                            "name": "Подветвь 2.1",
-                            "description": "Описание подветви 2.1",
-                            "children": [
-                                {"name": "Лист 2.1.1", "description": "Описание листа 2.1.1"},
-                                {"name": "Лист 2.1.2", "description": "Описание листа 2.1.2"},
-                                {"name": "Лист 2.1.3", "description": "Описание листа 2.1.3"}
-                            ]
-                        },
-                        {
-                            "name": "Подветвь 2.2",
-                            "description": "Описание подветви 2.2",
-                            "children": [
-                                {"name": "Лист 2.2.1", "description": "Описание листа 2.2.1"},
-                                {"name": "Лист 2.2.2", "description": "Описание листа 2.2.2"},
-                                {"name": "Лист 2.2.3", "description": "Описание листа 2.2.3"}
-                            ]
-                        },
-                        {
-                            "name": "Подветвь 2.3",
-                            "description": "Описание подветви 2.3",
-                            "children": [
-                                {"name": "Лист 2.3.1", "description": "Описание листа 2.3.1"},
-                                {"name": "Лист 2.3.2", "description": "Описание листа 2.3.2"},
-                                {"name": "Лист 2.3.3", "description": "Описание листа 2.3.3"}
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "Дух",
-                    "description": "Показатель духовного и ментального развития относительно первого предела Восхождения.",
-                    "css": "fill: gold; stroke: #6666cc;",
-                    "icon": `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
-                    "children": [
-                        {
-                            "name": "Подветвь 3.1",
-                            "description": "Описание подветви 3.1",
-                            "children": [
-                                {
-                                    "name": "Лист 3.1.1",
-                                    "description": "Описание листа 3.1.1"
-                                },
-                                {
-                                    "name": "Лист 3.1.2",
-                                    "description": "Описание листа 3.1.2"
-                                },
-                                {
-                                    "name": "Лист 3.1.3",
-                                    "description": "Описание листа 3.1.3"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "Подветвь 3.2",
-                            "description": "Описание подветви 3.2",
-                            "children": [
-                                {"name": "Лист 3.2.1", "description": "Описание листа 3.2.1"},
-                                {"name": "Лист 3.2.2", "description": "Описание листа 3.2.2"},
-                                {"name": "Лист 3.2.3", "description": "Описание листа 3.2.3"}
-                            ]
-                        },
-                        {
-                            "name": "Подветвь 3.3",
-                            "description": "Описание подветви 3.3",
-                            "children": [
-                                {"name": "Лист 3.3.1", "description": "Описание листа 3.3.1"},
-                                {"name": "Лист 3.3.2", "description": "Описание листа 3.3.2"},
-                                {"name": "Лист 3.3.3", "description": "Описание листа 3.3.3"}
-                            ]
-                        }
-                    ]
-                }
-            ]
+        const iconDictionary = {
+            star: `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
+            circle: `<svg viewBox="0 0 32 32" class="icon"><circle cx="16" cy="16" r="14" fill="white"/></svg>`,
+            triangle: `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L30 30 L2 30 Z" fill="white"/></svg>`,
+            square: `<svg viewBox="0 0 32 32" class="icon"><rect x="2" y="2" width="28" height="28" fill="white"/></svg>`
         };
-
     </script>
+    <script src="attributes.js"></script>
 </head>
 <body>
 <div id="mindmap-container">
@@ -365,21 +239,30 @@
     // Добавляем кружки для узлов
     const circles = node.append("circle")
         .attr("r", nodeRadius)
-        .attr("style", d => d.data.css || "fill: #ccc; stroke: #999;")
         .attr("fill", d => d.data.style?.fill || "#ccc")
         .attr("stroke", d => d.data.style?.stroke || "#999")
         .on("click", (event, d) => {
             event.stopPropagation();
             showPopup(d.data.name, d.data.description);
+            console.log(d.data);
         });
 
     // Добавляем иконки в узлы
-    node.each(function (d) {
+    /*node.each(function (d) {
         if (d.data.style?.icon) {
             d3.select(this)
                 .append("g")
                 .attr("transform", `translate(-${nodeRadius}, -${nodeRadius})`)
                 .html(d.data.style.icon);
+        }
+    });*/
+    node.each(function(d) {
+        if (d.data.style?.icon && iconDictionary[d.data.style.icon]) {
+            console.log(iconDictionary[d.data.style.icon]);
+            d3.select(this)
+                .append("g")
+                .attr("transform", `translate(-${nodeRadius}, -${nodeRadius})`)
+                .html(iconDictionary[d.data.style.icon]);
         }
     });
 
