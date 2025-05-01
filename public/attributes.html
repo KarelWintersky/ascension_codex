@@ -101,6 +101,13 @@
             text-anchor: middle;
             pointer-events: none;
         }
+
+        .level-circle {
+            pointer-events: none; /* Чтобы круги не перехватывали клики */
+        }
+        .rings-group path {
+            pointer-events: none;
+        }
     </style>
     <script>
         const config = {
@@ -337,6 +344,45 @@
         svg.attr("width", newWidth)
             .attr("height", newHeight);
     });
+
+    // Добавляем концентрические круги для разных уровней
+    const levelRadii = {
+        1: { inner: 0, outer: 210, color: "#8B4513", name: "Дерево" },   // Центральный круг 220
+        2: { inner: 210, outer: 350, color: "#CD7F32", name: "Бронза" }, // Первое кольцо 350
+        3: { inner: 350, outer: 480, color: "#C0C0C0", name: "Серебро" },// Второе кольцо 480
+        4: { inner: 480, outer: 620, color: "#FFD700", name: "Золото" }  // Внешнее кольцо 600
+    };
+
+    // Создаем группу для колец
+    const ringsGroup = g.append("g")
+        .attr("class", "rings-group");
+
+    // Рисуем кольца с помощью path (чтобы избежать наложения)
+    Object.entries(levelRadii).forEach(([level, config]) => {
+        // Создаем path для каждого кольца
+        const ringPath = d3.arc()
+            .innerRadius(config.inner)
+            .outerRadius(config.outer)
+            .startAngle(0)
+            .endAngle(2 * Math.PI);
+
+        ringsGroup.append("path")
+            .attr("d", ringPath)
+            .attr("fill", config.color)
+            .attr("fill-opacity", 0.3)
+            .attr("stroke", config.color)
+            .attr("stroke-width", 2)
+            .attr("stroke-opacity", 0.5);
+
+        // Добавляем подписи
+        /*ringsGroup.append("text")
+            .attr("x", config.outer - 20)
+            .attr("y", -10)
+            .attr("text-anchor", "middle")
+            .attr("fill", "#333")
+            .text(config.name);*/
+    });
+
 </script>
 </body>
 </html>
