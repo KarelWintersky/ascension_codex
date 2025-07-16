@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Starblood Ascension Codex -- Attrubutes</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="d3.v7.min.js" data-src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -113,13 +113,21 @@
         const config = {
             useArrows: true,
             showLabels: true,
-            nodeRadius: 16
+            nodeRadius: 16,
+            showCircles: true
         };
         const iconDictionary = {
             star: `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L20 12 L30 12 L22 19 L25 30 L16 24 L7 30 L10 19 L2 12 L12 12 Z" fill="white"/></svg>`,
             circle: `<svg viewBox="0 0 32 32" class="icon"><circle cx="16" cy="16" r="14" fill="white"/></svg>`,
             triangle: `<svg viewBox="0 0 32 32" class="icon"><path d="M16 2 L30 30 L2 30 Z" fill="white"/></svg>`,
             square: `<svg viewBox="0 0 32 32" class="icon"><rect x="2" y="2" width="28" height="28" fill="white"/></svg>`
+        };
+        // Добавляем концентрические круги для разных уровней
+        const levelRadii = {
+            1: { inner: 0, outer: 175, color: "#8B4513", name: "Дерево" },   // Центральный круг 220
+            2: { inner: 175, outer: 305, color: "#CD7F32", name: "Бронза" }, // Первое кольцо 350
+            3: { inner: 305, outer: 420, color: "#C0C0C0", name: "Серебро" },// Второе кольцо 480
+            4: { inner: 420, outer: 560, color: "#FFD700", name: "Золото" }  // Внешнее кольцо 600
         };
     </script>
     <script src="attributes.js"></script>
@@ -345,43 +353,39 @@
             .attr("height", newHeight);
     });
 
-    // Добавляем концентрические круги для разных уровней
-    const levelRadii = {
-        1: { inner: 0, outer: 210, color: "#8B4513", name: "Дерево" },   // Центральный круг 220
-        2: { inner: 210, outer: 350, color: "#CD7F32", name: "Бронза" }, // Первое кольцо 350
-        3: { inner: 350, outer: 480, color: "#C0C0C0", name: "Серебро" },// Второе кольцо 480
-        4: { inner: 480, outer: 620, color: "#FFD700", name: "Золото" }  // Внешнее кольцо 600
-    };
 
-    // Создаем группу для колец
-    const ringsGroup = g.append("g")
-        .attr("class", "rings-group");
 
-    // Рисуем кольца с помощью path (чтобы избежать наложения)
-    Object.entries(levelRadii).forEach(([level, config]) => {
-        // Создаем path для каждого кольца
-        const ringPath = d3.arc()
-            .innerRadius(config.inner)
-            .outerRadius(config.outer)
-            .startAngle(0)
-            .endAngle(2 * Math.PI);
+    if (config.showCircles) {
 
-        ringsGroup.append("path")
-            .attr("d", ringPath)
-            .attr("fill", config.color)
-            .attr("fill-opacity", 0.3)
-            .attr("stroke", config.color)
-            .attr("stroke-width", 2)
-            .attr("stroke-opacity", 0.5);
+        // Создаем группу для колец
+        const ringsGroup = g.append("g").attr("class", "rings-group");
 
-        // Добавляем подписи
-        /*ringsGroup.append("text")
-            .attr("x", config.outer - 20)
-            .attr("y", -10)
-            .attr("text-anchor", "middle")
-            .attr("fill", "#333")
-            .text(config.name);*/
-    });
+        // Рисуем кольца с помощью path (чтобы избежать наложения)
+        Object.entries(levelRadii).forEach(([level, config]) => {
+            // Создаем path для каждого кольца
+            const ringPath = d3.arc()
+                .innerRadius(config.inner)
+                .outerRadius(config.outer)
+                .startAngle(0)
+                .endAngle(2 * Math.PI);
+
+            ringsGroup.append("path")
+                .attr("d", ringPath)
+                .attr("fill", config.color)
+                .attr("fill-opacity", 0.3)
+                .attr("stroke", config.color)
+                .attr("stroke-width", 2)
+                .attr("stroke-opacity", 0.5);
+
+            // Добавляем подписи
+            /*ringsGroup.append("text")
+                .attr("x", config.outer - 20)
+                .attr("y", -10)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#333")
+                .text(config.name);*/
+        });
+    }
 
 </script>
 </body>
